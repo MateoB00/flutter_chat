@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "148241646694",
+    "project_id": "digitalschool-fd10d",
+    "storage_bucket": "digitalschool-fd10d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148241646694:android:453881ec413b0da6b659a7",
+        "android_client_info": {
+          "package_name": "com.dissingardjino.digitaldschool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148241646694-rr12o8goo6t4eg6jrrcsm101e21acq31.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAXOKlz6haHGLdATVICs5H0LfQ2s5yYcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148241646694-rr12o8goo6t4eg6jrrcsm101e21acq31.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "148241646694-j5bjlv486j3ql3kkf89jfqv61uapgjjj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dissingardjino.digitaldschool"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
