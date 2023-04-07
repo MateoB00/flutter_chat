@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:digitaldschool/model/utilisateur.dart';
 import 'package:digitaldschool/model/message.dart';
 import '../controller/list_person.dart';
+import '../controller/list_message.dart';
 
 
 class DashBoardView extends StatefulWidget {

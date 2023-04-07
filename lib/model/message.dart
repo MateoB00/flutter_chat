@@ -10,20 +10,21 @@ class Message {
   late String content;
   late DocumentReference sender;
   late DocumentReference receiver;
-  late DateTime created_at;
-  late DateTime updated_at;
+  Timestamp created_at = Timestamp.now();
+  Timestamp updated_at = Timestamp.now();
 
-  Message(DocumentSnapshot snapshot) {
-    id = snapshot.id;
-    Map<String, dynamic> map = snapshot.data() as Map<String, dynamic>;
-    content = map['CONTENT'];
-    sender = map['SENDER'];
-    receiver = map['RECEIVER'];
-    created_at = map['CREATED_AT'].toDate();
-    updated_at = map['UPDATED_AT'].toDate();
-  }
+Message(DocumentSnapshot snapshot) {
+  id = snapshot.id;
+  Map<String,dynamic> map = snapshot.data() as Map<String,dynamic>;
+  print(map);
+  content = map['content'];
+  sender = map['sender'];
+  receiver = map['receiver'];
+  created_at = map['created_at'];
+  updated_at = map['updated_at'];
+}
 
-  Message.empty() {
+ Message.empty() {
     id = "";
     content = "";
     sender = FirebaseFirestore.instance.doc('');
