@@ -42,6 +42,39 @@ class FirestoreHelper {
       }
   }
 
+  Future<void> sendMessage(String senderEmail, String receiverEmail, String content) async {
+    try {
+      // Get sender and receiver documents from the 'UTILISATEURS' collection
+      final senderSnapshot = await FirebaseFirestore.instance
+          .collection('UTILISATEURS')
+          .where('EMAIL', isEqualTo: senderEmail)
+          .get();
+      final receiverSnapshot = await FirebaseFirestore.instance
+          .collection('UTILISATEURS')
+          .where('EMAIL', isEqualTo: receiverEmail)
+          .get();
+
+      // Get the sender and receiver documents from the snapshots
+      final senderDocument = senderSnapshot.docs.first;
+      final receiverDocument = receiverSnapshot.docs.first;
+      print(senderDocument);
+      print(receiverDocument);
+      // Create a new message document in Firestore
+      await FirebaseFirestore.instance
+          .collection('messages')
+          .add({
+        'sender': senderDocument.reference,
+        'receiver': receiverDocument.reference,
+        'content': content,
+        'timestamp': DateTime.now(),
+      });
+    } catch (error) {
+      // Handle any errors that occur during the message sending process
+      print('Error sending message: $error');
+      throw error;
+    }
+  }
+
 
   //    Future<Message> CreateMessage(String message, Reference sender, Reference received) async{
   //   //creer dans l'authentification

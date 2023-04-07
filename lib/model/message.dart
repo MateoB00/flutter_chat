@@ -3,8 +3,9 @@ import 'package:digitaldschool/globale.dart';
 import 'package:digitaldschool/model/utilisateur.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Message {
-  //attributs
   late String id;
   late String content;
   late DocumentReference sender;
@@ -22,4 +23,13 @@ Message(DocumentSnapshot snapshot) {
   created_at = map['created_at'];
   updated_at = map['updated_at'];
 }
+
+ Message.empty() {
+    id = "";
+    content = "";
+    sender = FirebaseFirestore.instance.doc('');
+    receiver = FirebaseFirestore.instance.doc('');
+    created_at = DateTime.now();
+    updated_at = DateTime.now();
+  }
 }

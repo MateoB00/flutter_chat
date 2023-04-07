@@ -46,8 +46,11 @@ void navigateToSendMessageView(Utilisateur user) {
                 elevation: 5,
                 color: Colors.purple,
                 child:               ListTile(
-                onTap: () {
-                    navigateToSendMessageView(otherUser);
+                onTap: () async {
+                  Utilisateur user = await FirestoreHelper().getUser(otherUser.id);
+                  selectedUtilisateur = user;
+                  print(selectedUtilisateur.id);
+                  navigateToSendMessageView(otherUser);
                 },
                 leading: CircleAvatar(
                   radius: 30,
