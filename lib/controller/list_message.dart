@@ -34,12 +34,17 @@ class _ListMessagesState extends State<ListMessages> {
                     itemCount: documents.length,
                     itemBuilder: (context, index) {
                       Message message = Message(documents[index]);
-                      return Card(
-                          elevation: 5,
-                          color: Colors.purple,
-                          child: ListTile(
-                            title: Text(message.content),
-                          ));
+                      if (message.receiver.id == monUtilisateur.id &&
+                              message.sender.id == selectedUtilisateur.id ||
+                          message.receiver.id == selectedUtilisateur.id &&
+                              message.sender.id == monUtilisateur.id) {
+                        return Card(
+                            elevation: 5,
+                            color: Colors.purple,
+                            child: ListTile(
+                              title: Text(message.content),
+                            ));
+                      }
                     },
                   );
                 }
