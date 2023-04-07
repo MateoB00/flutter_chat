@@ -7,24 +7,19 @@ class Message {
   //attributs
   late String id;
   late String content;
-  late Reference sender;
-  late Reference receiver;
-  DateTime created_at = DateTime.now();
-  DateTime updated_at = DateTime.now();
+  late DocumentReference sender;
+  late DocumentReference receiver;
+  Timestamp created_at = Timestamp.now();
+  Timestamp updated_at = Timestamp.now();
 
 Message(DocumentSnapshot snapshot) {
   id = snapshot.id;
-  Map map = snapshot.data() as Map;
-  content = map['CONTENT'];
-  sender = map['SENDER'];
-  receiver = map['RECEIVER'];
+  Map<String,dynamic> map = snapshot.data() as Map<String,dynamic>;
+  print(map);
+  content = map['content'];
+  sender = map['sender'];
+  receiver = map['receiver'];
+  created_at = map['created_at'];
+  updated_at = map['updated_at'];
 }
-
-
- Message.empty(){
-   id = "";
-   content = "";
-   sender = "" as Reference;
-   receiver = "" as Reference;
- }
 }

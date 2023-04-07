@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digitaldschool/controller/FirestoreHepler.dart';
 import 'package:digitaldschool/controller/home_page.dart';
 import 'package:digitaldschool/controller/permission_helper.dart';
 import 'package:digitaldschool/globale.dart';
 import 'package:digitaldschool/view/dashboard_view.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'firebase_options.dart';
+import 'model/utilisateur.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController  password = TextEditingController();
   TextEditingController  prenom = TextEditingController();
   TextEditingController  nom = TextEditingController();
+  TextEditingController message = TextEditingController();
   List<bool> selection = [true,false];
 
 
@@ -266,8 +270,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
             },
+
+            
             child: const Text("Validation")
-        )
+            
+        ),
+
+              
       ],
     );
   }

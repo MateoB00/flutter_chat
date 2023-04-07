@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digitaldschool/model/utilisateur.dart';
+import 'package:digitaldschool/model/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -13,7 +14,7 @@ class FirestoreHelper {
   final auth = FirebaseAuth.instance;
   final storage = FirebaseStorage.instance;
   final cloudUsers = FirebaseFirestore.instance.collection("UTILISATEURS");
-  final cloudMessage = FirebaseFirestore.instance.collection("MESSAGES");
+  final cloudMessage = FirebaseFirestore.instance.collection("messages");
 
 
 
@@ -39,10 +40,52 @@ class FirestoreHelper {
         return getUser(uid);
 
       }
-
-
-
   }
+
+
+  //    Future<Message> CreateMessage(String message, Reference sender, Reference received) async{
+  //   //creer dans l'authentification
+  //     UserCredential credential = await auth.createUserWithEmailAndPassword(email: email, password: password);
+  //     User? user = credential.user;
+  //     if (user == null) {return Future.error("error");}
+  //     else {
+  //       String uid = user.uid;
+  //       Map<String,dynamic> map = {
+  //         "message": message,
+  //         "sender":sender,
+  //         "received": received,
+  //       };
+  //       //stocker dans la partie du firestore database
+  //       addUser(uid,map);
+  //       return getUser(uid);
+
+  //     }
+  // }
+
+  Future<void> sendMessage(senderId, receiverId, String content) async {
+  // Ajouter le message à la collection "messages".
+  await FirebaseFirestore.instance.collection('MESSAGES').add({
+    'senderId': senderId,
+    'receiverId': receiverId,
+    'content': content,
+  });
+
+  // Ajouter le message à l'historique du sender.
+  await FirebaseFirestore.instance.collection('UTILISATEURS').doc(senderId).update({
+    'MESSAGES': FieldValue.arrayUnion([{
+      'receiverId': receiverId,
+      'content': content,
+    }])
+  });
+
+  // Ajouter le message à l'historique du receiver.
+  await FirebaseFirestore.instance.collection('UTILISATEURS').doc(receiverId).update({
+    'MESSAGES': FieldValue.arrayUnion([{
+      'senderId': senderId,
+      'content': content,
+    }])
+  });
+}
 
 
   //Récupérer les infos de l'utilisateur

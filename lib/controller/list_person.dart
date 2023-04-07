@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:digitaldschool/globale.dart';
 import '../model/utilisateur.dart';
+import '../controller/list_message.dart';
 import 'FirestoreHepler.dart';
 
 class ListPerson extends StatefulWidget {
@@ -12,6 +13,16 @@ class ListPerson extends StatefulWidget {
 }
 
 class _ListPersonState extends State<ListPerson> {
+
+void navigateToSendMessageView(Utilisateur user) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ListMessages(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -26,6 +37,7 @@ class _ListPersonState extends State<ListPerson> {
           return ListView.builder(
             itemCount: documents.length,
             itemBuilder: (context, index) {
+              print(documents);
               Utilisateur otherUser = Utilisateur(documents[index]);
               if (monUtilisateur.id == otherUser.id) {
                 return Container();
@@ -35,8 +47,7 @@ class _ListPersonState extends State<ListPerson> {
                 color: Colors.purple,
                 child:               ListTile(
                 onTap: () {
-
-                  print('fdsokfqdskf');
+                    navigateToSendMessageView(otherUser);
                 },
                 leading: CircleAvatar(
                   radius: 30,
