@@ -81,7 +81,7 @@ class _DashBoardViewState extends State<DashBoardView> {
       },
       children: [
         ListPerson(),
-        Text("Deuxième page"),
+        Text(selectedUtilisateur.email),
         Text("Troisème page"),
       ],
     );
