@@ -29,7 +29,7 @@ Message(DocumentSnapshot snapshot) {
     content = "";
     sender = FirebaseFirestore.instance.doc('');
     receiver = FirebaseFirestore.instance.doc('');
-    created_at = DateTime.now();
-    updated_at = DateTime.now();
+    created_at = Timestamp.now();
+    updated_at = Timestamp.now();
   }
 }
