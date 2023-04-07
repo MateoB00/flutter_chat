@@ -34,9 +34,10 @@ class _ListPersonState extends State<ListPerson> {
                 elevation: 5,
                 color: Colors.purple,
                 child:               ListTile(
-                onTap: () {
-
-                  print('fdsokfqdskf');
+                onTap: () async {
+                  Utilisateur user = await FirestoreHelper().getUser(otherUser.id);
+                  selectedUtilisateur = user;
+                  print(selectedUtilisateur.id);
                 },
                 leading: CircleAvatar(
                   radius: 30,
