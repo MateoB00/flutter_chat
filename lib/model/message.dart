@@ -3,28 +3,32 @@ import 'package:digitaldschool/globale.dart';
 import 'package:digitaldschool/model/utilisateur.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Message {
-  //attributs
   late String id;
   late String content;
-  late Reference sender;
-  late Reference receiver;
-  DateTime created_at = DateTime.now();
-  DateTime updated_at = DateTime.now();
+  late DocumentReference sender;
+  late DocumentReference receiver;
+  late DateTime created_at;
+  late DateTime updated_at;
 
-Message(DocumentSnapshot snapshot) {
-  id = snapshot.id;
-  Map map = snapshot.data() as Map;
-  content = map['CONTENT'];
-  sender = map['SENDER'];
-  receiver = map['RECEIVER'];
-}
+  Message(DocumentSnapshot snapshot) {
+    id = snapshot.id;
+    Map<String, dynamic> map = snapshot.data() as Map<String, dynamic>;
+    content = map['CONTENT'];
+    sender = map['SENDER'];
+    receiver = map['RECEIVER'];
+    created_at = map['CREATED_AT'].toDate();
+    updated_at = map['UPDATED_AT'].toDate();
+  }
 
-
- Message.empty(){
-   id = "";
-   content = "";
-   sender = "" as Reference;
-   receiver = "" as Reference;
- }
+  Message.empty() {
+    id = "";
+    content = "";
+    sender = FirebaseFirestore.instance.doc('');
+    receiver = FirebaseFirestore.instance.doc('');
+    created_at = DateTime.now();
+    updated_at = DateTime.now();
+  }
 }

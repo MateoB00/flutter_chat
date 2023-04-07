@@ -5,7 +5,7 @@ import 'package:digitaldschool/globale.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:digitaldschool/model/utilisateur.dart';
-
+import 'package:digitaldschool/model/message.dart';
 import '../controller/list_person.dart';
 
 
@@ -22,6 +22,7 @@ class _DashBoardViewState extends State<DashBoardView> {
   //variable
   int indexCurrent = 1;
   PageController controllerPage = PageController(initialPage: 1);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
