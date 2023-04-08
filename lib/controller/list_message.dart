@@ -16,9 +16,13 @@ class _ListMessagesState extends State<ListMessages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Envoyer un message à ${widget.user.fullName}'),
-      // ),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text('Envoyer un message à ${selectedUtilisateur.fullName}'),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -59,13 +63,19 @@ class _ListMessagesState extends State<ListMessages> {
                   decoration: InputDecoration(
                     labelText: 'Message',
                     border: OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.send),
+                      onPressed: () {
+                        // Ajoutez ici le code pour envoyer le message
+                      },
+                    ),
                   ),
                   maxLines: null,
-                  onChanged: (value) {
-                    // setState(() {
-                    //   _message = value;
-                    // });
-                  },
+                  // onChanged: (value) {
+                  //   // setState(() {
+                  //   //   _message = value;
+                  //   // });
+                  // },
                 ),
                 SizedBox(height: 16),
                 // ElevatedButton(
