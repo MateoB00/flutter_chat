@@ -13,18 +13,17 @@ class Message {
   Timestamp created_at = Timestamp.now();
   Timestamp updated_at = Timestamp.now();
 
-Message(DocumentSnapshot snapshot) {
-  id = snapshot.id;
-  Map<String,dynamic> map = snapshot.data() as Map<String,dynamic>;
-  print(map);
-  content = map['content'];
-  sender = map['sender'];
-  receiver = map['receiver'];
-  created_at = map['created_at'];
-  updated_at = map['updated_at'];
-}
+  Message(DocumentSnapshot snapshot) {
+    id = snapshot.id;
+    Map<String, dynamic> map = snapshot.data() as Map<String, dynamic>;
+    content = map['content'];
+    sender = map['sender'];
+    receiver = map['receiver'];
+    created_at = map['created_at'];
+    updated_at = map['updated_at'];
+  }
 
- Message.empty() {
+  Message.empty() {
     id = "";
     content = "";
     sender = FirebaseFirestore.instance.doc('');

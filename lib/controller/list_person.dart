@@ -13,8 +13,7 @@ class ListPerson extends StatefulWidget {
 }
 
 class _ListPersonState extends State<ListPerson> {
-
-void navigateToSendMessageView(Utilisateur user) {
+  void navigateToSendMessageView(Utilisateur user) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -26,44 +25,38 @@ void navigateToSendMessageView(Utilisateur user) {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirestoreHelper().cloudUsers.snapshots(),
-      builder: (context, snap) {
-        List documents = snap.data?.docs ?? [];
-        if (documents.isEmpty){
-          return const Center(
-            child: CircularProgressIndicator.adaptive()
-          );
-        } else {
-          return ListView.builder(
-            itemCount: documents.length,
-            itemBuilder: (context, index) {
-              print(documents);
-              Utilisateur otherUser = Utilisateur(documents[index]);
-              if (monUtilisateur.id == otherUser.id) {
-                return Container();
-              }
-              return Card(
-                elevation: 5,
-                color: Colors.purple,
-                child:               ListTile(
-                onTap: () async {
-                  Utilisateur user = await FirestoreHelper().getUser(otherUser.id);
-                  selectedUtilisateur = user;
-                  print(selectedUtilisateur.id);
-                  navigateToSendMessageView(otherUser);
-                },
-                leading: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: NetworkImage(otherUser.avatar!),
-                ),
-                title: Text(otherUser.fullName),
-                subtitle: Text(otherUser.email),
-              ) 
-              );
-            }
-          );
-        }
-      }
-    );
+        stream: FirestoreHelper().cloudUsers.snapshots(),
+        builder: (context, snap) {
+          List documents = snap.data?.docs ?? [];
+          if (documents.isEmpty) {
+            return const Center(child: CircularProgressIndicator.adaptive());
+          } else {
+            return ListView.builder(
+                itemCount: documents.length,
+                itemBuilder: (context, index) {
+                  Utilisateur otherUser = Utilisateur(documents[index]);
+                  if (monUtilisateur.id == otherUser.id) {
+                    return Container();
+                  }
+                  return Card(
+                      elevation: 5,
+                      color: Colors.purple,
+                      child: ListTile(
+                        onTap: () async {
+                          Utilisateur user =
+                              await FirestoreHelper().getUser(otherUser.id);
+                          selectedUtilisateur = user;
+                          navigateToSendMessageView(otherUser);
+                        },
+                        leading: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: NetworkImage(otherUser.avatar!),
+                        ),
+                        title: Text(otherUser.fullName),
+                        subtitle: Text(otherUser.email),
+                      ));
+                });
+          }
+        });
   }
 }

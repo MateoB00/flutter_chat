@@ -75,8 +75,6 @@ class FirestoreHelper {
       // Get the sender and receiver documents from the snapshots
       final senderDocument = senderSnapshot.docs.first;
       final receiverDocument = receiverSnapshot.docs.first;
-      print(senderDocument);
-      print(receiverDocument);
       // Create a new message document in Firestore
       await FirebaseFirestore.instance.collection('messages').add({
         'sender': senderDocument.reference,
