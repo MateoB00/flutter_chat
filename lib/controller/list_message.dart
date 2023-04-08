@@ -110,6 +110,7 @@ class _ListMessagesState extends State<ListMessages> {
                       onPressed: () {
                         FirestoreHelper().sendMessage(monUtilisateur.email,
                             selectedUtilisateur.email, contentMessage.text);
+                        contentMessage.clear();
                         // .then((value) {
                         //si la méthode fonctionne bien
                         // setState(() {
