@@ -43,52 +43,51 @@ class _ListMessagesState extends State<ListMessages> {
                     itemCount: documents.length,
                     itemBuilder: (context, index) {
                       Message message = Message(documents[index]);
-                      print('!------!');
-                      print(message.content);
-                      print('!------!');
-                      print(message.receiver.id);
-                      print('!------!');
-                      print(message.sender.id);
-                      print('!------!');
-                      print(monUtilisateur.id);
-                      print('!------!');
-                      print(selectedUtilisateur.id);
+                      // print('!------!');
+                      // print(message.content);
+                      // print('!------!');
+                      // print(message.receiver.id);
+                      // print('!------!');
+                      // print(message.sender.id);
+                      // print('!------!');
+                      // print(monUtilisateur.id);
+                      // print('!------!');
+                      // print(selectedUtilisateur.id);
                       // if (message.receiver.id == monUtilisateur.id &&
                       //         message.sender.id == selectedUtilisateur.id ||
                       //     message.receiver.id == selectedUtilisateur.id &&
                       //         message.sender.id == monUtilisateur.id) {
 
-                      if ((monUtilisateur.id == message.sender.id) ||
-                          (monUtilisateur.id == message.receiver.id)) {
-                        if ((selectedUtilisateur.id == message.sender.id) ||
-                            (selectedUtilisateur.id == message.receiver.id)) {
-                          // print('GOOOOOOD');
-                          return Card(
-                              child: Align(
-                            alignment: message.sender.id == monUtilisateur.id
-                                ? Alignment.centerRight
-                                : Alignment.centerLeft,
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              constraints: BoxConstraints(
-                                  maxWidth:
-                                      MediaQuery.of(context).size.width * 0.7),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: message.sender.id == monUtilisateur.id
-                                    ? Colors.blue[200]
-                                    : Colors.grey[300],
-                              ),
-                              child: Text(
-                                message.content,
-                                style: TextStyle(fontSize: 25),
-                              ),
+                      if (message.receiver.id == monUtilisateur.id &&
+                              message.sender.id == selectedUtilisateur.id ||
+                          message.receiver.id == selectedUtilisateur.id &&
+                              message.sender.id == monUtilisateur.id) {
+                        // print('GOOOOOOD');
+                        return Card(
+                            child: Align(
+                          alignment: message.sender.id == monUtilisateur.id
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.7),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: message.sender.id == monUtilisateur.id
+                                  ? Colors.blue[200]
+                                  : Colors.grey[300],
                             ),
-                          ));
-                          // }
-                        } else {
-                          return Container();
-                        }
+                            child: Text(
+                              message.content,
+                              style: TextStyle(fontSize: 25),
+                            ),
+                          ),
+                        ));
+                        // }
+                      } else {
+                        return Container();
                       }
                     },
                   );
