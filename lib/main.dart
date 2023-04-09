@@ -11,6 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'firebase_options.dart';
 import 'model/utilisateur.dart';
+import 'package:lottie/lottie.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -108,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
 
-        title: const Text("Digital Campus"),
+        title: const Text("Chat en ligne MyDigitalSchool"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -136,8 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
      return Column(
 
       children: [
-        ToggleButtons(
-          selectedColor: Colors.green,
+  Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: ToggleButtons(
+          selectedColor: Color.fromARGB(255, 76, 89, 175),
           onPressed: (int choix){
             if(choix == 0){
               setState(() {
@@ -157,13 +160,27 @@ class _MyHomePageState extends State<MyHomePage> {
           },
             isSelected: selection,
             children: const [
-              Text("Connexion"),
-              Text("Inscription")
-            ]
+    Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text("Connexion"),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text("Inscription"),
+    ),
+  ],
+    )
+        
         ),
         //image
         const SizedBox(height:10),
-        Image.network("https://www.auto-moto.com/wp-content/uploads/sites/9/2022/02/01-peugeot-208-750x410.jpg"),
+        
+        Lottie.asset(
+  'assets/chat1.json',
+  width: MediaQuery.of(context).size.width * 0.5, // réduit la largeur de l'animation de moitié
+  height: MediaQuery.of(context).size.height * 0.5, // réduit la hauteur de l'animation de moitié
+ 
+),
         const SizedBox(height:10),
 
 
