@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:digitaldschool/globale.dart';
 import '../model/message.dart';
 import '../model/utilisateur.dart';
@@ -14,6 +15,71 @@ class ListMessages extends StatefulWidget {
 
 class _ListMessagesState extends State<ListMessages> {
   TextEditingController contentMessage = TextEditingController();
+
+  late TextEditingController messageATraduire;
+  late LanguageIdentifier _languageIdentifier;
+  late OnDeviceTranslator translator;
+  String simpleLang = "";
+  String mutlipleLang = "";
+  String traductionText = "";
+
+  getUniqueLanguage() async {
+    simpleLang = "";
+    String phrase = messageATraduire.text;
+    if (phrase == "") return;
+    final langage = await _languageIdentifier.identifyLanguage(phrase);
+    setState(() {
+      simpleLang = langage;
+    });
+  }
+
+  getMultipleLanguage() async {
+    mutlipleLang = "";
+    String phrase = messageATraduire.text;
+    if (phrase == "") return;
+    final multiple =
+        await _languageIdentifier.identifyPossibleLanguages(phrase);
+    if (multiple.isEmpty) {
+      setState(() {
+        mutlipleLang = "Nous n'avons pas trouvé aucune correspondance";
+      });
+    } else {
+      for (var lang in multiple) {
+        setState(() {
+          mutlipleLang +=
+              "${lang.languageTag}, avec une confiance de : ${lang.confidence * 100}%";
+        });
+      }
+    }
+  }
+
+  traduction() async {
+    traductionText = "";
+    if (messageATraduire == "") return;
+    String phrase = messageATraduire.text;
+    final tr = await translator.translateText(phrase);
+    setState(() {
+      traductionText = tr;
+    });
+  }
+
+  @override
+  void initState() {
+    messageATraduire = TextEditingController();
+    _languageIdentifier = LanguageIdentifier(confidenceThreshold: 0.3);
+    translator = OnDeviceTranslator(
+        sourceLanguage: TranslateLanguage.french,
+        targetLanguage: TranslateLanguage.english);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _languageIdentifier.close();
+    translator.close();
+    messageATraduire.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +108,7 @@ class _ListMessagesState extends State<ListMessages> {
                   return ListView.builder(
                     itemCount: documents.length,
                     itemBuilder: (context, index) {
-                      Message message = Message(documents[index]);
+                      Messages message = Messages(documents[index]);
                       // print('!------!');
                       // print(message.content);
                       // print('!------!');
@@ -58,33 +124,48 @@ class _ListMessagesState extends State<ListMessages> {
                       //     message.receiver.id == selectedUtilisateur.id &&
                       //         message.sender.id == monUtilisateur.id) {
 
+                      print(traductionText);
+
                       if (message.receiver.id == monUtilisateur.id &&
                               message.sender.id == selectedUtilisateur.id ||
                           message.receiver.id == selectedUtilisateur.id &&
                               message.sender.id == monUtilisateur.id) {
                         // print('GOOOOOOD');
                         return Card(
-                            child: Align(
-                          alignment: message.sender.id == monUtilisateur.id
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.7),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: message.sender.id == monUtilisateur.id
-                                  ? Colors.blue[200]
-                                  : Colors.grey[300],
-                            ),
-                            child: Text(
-                              message.content,
-                              style: TextStyle(fontSize: 25),
+                          child: Align(
+                            alignment: message.sender.id == monUtilisateur.id
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.7),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: message.sender.id == monUtilisateur.id
+                                    ? Colors.blue[200]
+                                    : Colors.grey[300],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    message.content,
+                                    style: TextStyle(fontSize: 25),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: traduction,
+                                    child: Text(
+                                      "Traduire de français en anglais",
+                                    ),
+                                  ),
+                                  Text(traductionText)
+                                ],
+                              ),
                             ),
                           ),
-                        ));
+                        );
                         // }
                       } else {
                         return Container();

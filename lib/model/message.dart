@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Message {
+class Messages {
   late String id;
   late String content;
   late DocumentReference sender;
@@ -13,7 +13,7 @@ class Message {
   Timestamp created_at = Timestamp.now();
   Timestamp updated_at = Timestamp.now();
 
-  Message(DocumentSnapshot snapshot) {
+  Messages(DocumentSnapshot snapshot) {
     id = snapshot.id;
     Map<String, dynamic> map = snapshot.data() as Map<String, dynamic>;
     content = map['content'];
@@ -23,7 +23,7 @@ class Message {
     updated_at = map['updated_at'];
   }
 
-  Message.empty() {
+  Messages.empty() {
     id = "";
     content = "";
     sender = FirebaseFirestore.instance.doc('');
